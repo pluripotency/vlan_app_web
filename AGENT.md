@@ -1,7 +1,7 @@
 # VLAN申請管理アプリのエージェント向けメモ
 
 ## 全体像
-- フロントエンド: `front/` で構成された React + TypeScript + Vite の SPA。API ベースの画面を持ち、ユーザー・VLAN・申請の CRUD や管理操作を提供します。
+- フロントエンド: `front/` で構成された React + TypeScript + Vite の SPA。ユーザー選択式ログインページ → 個人ダッシュボード → （管理者のみ）タブ付き Admin ページという 2 ステップ UI で、申請作成/キャンセルと管理業務を分離しています。
 - バックエンド: `back/` の Express + Drizzle ORM + PostgreSQL 構成。REST API とビルド済みフロントの静的配信をまとめて提供します。
 - データベース: Docker Compose (`docker/postgres/`) で PostgreSQL 16 を起動。初回起動時にスキーマとサンプルデータを投入する init スクリプトと、アプリ起動時の Drizzle 側初期化処理を両方備えています。
 
@@ -28,14 +28,28 @@
 - `scripts/`: Postgres の起動停止スクリプト。
 - `start.sh`: プロダクション相当の起動トグルスクリプト。
 
+## フロント画面構成
+- ログインページ: 取得済みユーザーから選択してログイン。ユーザー再読込ボタン付き。
+- ユーザーダッシュボード:
+  - 自分の基本情報と自分宛て申請一覧を表示。
+  - 新規申請フォーム（選択した VLAN へ pending 申請作成）。
+  - pending のみ「キャンセル」が可能（`DELETE /api/requests/:id`）。
+  - 管理者の場合はトップバー右上に Admin ページへのリンクが表示。
+- Admin ページ（管理者のみ）: Requests / Create New User / Admin Controls / VLAN マスターの 4 タブ構成。
+  - Requests: acting admin（承認担当）を選択し、各申請を Approve / Reject。
+  - Create New User: subject/name/管理者権限・付与者を指定してユーザー作成。
+  - Admin Controls: 既存ユーザーの管理者権限を付与/剥奪。
+  - VLAN マスター: VLAN ID と説明の登録、一覧表示。
+
 ## API ハイライト（バックエンド）
 - `GET /api/health`: ヘルスチェック。
-- `GET /api/vlans`: VLAN 一覧取得。
+- `GET /api/vlans` / `POST /api/vlans`: VLAN 一覧取得とマスター登録（重複 ID は 409）。
 - `GET /api/users` / `POST /api/users`: ユーザー一覧と作成。作成時に管理者権限付与可。
 - `PATCH /api/users/:id/admin`: 管理者権限の付与・剥奪。acting admin の検証ロジックあり。
 - `GET /api/requests`: リクエスト履歴＋関連情報を JOIN 済みで返却。
-- `POST /api/requests`: リクエスト作成（オプションで代理作成者指定）。
+- `POST /api/requests`: リクエスト作成（代理作成者指定可）。
 - `PATCH /api/requests/:id`: 管理者による承認/却下。
+- `DELETE /api/requests/:id`: リクエスト作成者本人による pending 申請のキャンセル。
 
 ## データベース初期データ
 - VLAN: 10/20/30 を初期投入（Corporate LAN / Guest Network / Secure Lab）。
