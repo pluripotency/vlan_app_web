@@ -1,0 +1,7 @@
+#! /bin/bash
+MY_IP=`ip -4 -br a | grep -v lo | grep -v docker | head -n 1 | awk '{print $3}' | cut -d/ -f 1`
+echo "MY_IP is: ${MY_IP}"
+export IMAGE_NAME=vlan_app_web
+export CONTAINER_NAME=vlan_app_web
+export REDIS_IP=$MY_IP
+export SERVER_PORT=3001

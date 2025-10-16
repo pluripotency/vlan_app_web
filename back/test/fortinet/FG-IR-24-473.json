@@ -1,0 +1,71 @@
+{
+  "source_file": "FG-IR-24-473.html",
+  "scraped_at": "2025-08-16T02:02:22.181Z",
+  "details": [
+    {
+      "version": "FortiManager 7.6",
+      "affected": "7.6.0 through 7.6.1",
+      "solution": "Upgrade to 7.6.2 or above"
+    },
+    {
+      "version": "FortiManager 7.4",
+      "affected": "7.4.0 through 7.4.5",
+      "solution": "Upgrade to 7.4.6 or above"
+    },
+    {
+      "version": "FortiManager 7.2",
+      "affected": "7.2.0 through 7.2.9",
+      "solution": "Upgrade to 7.2.10 or above"
+    },
+    {
+      "version": "FortiManager 7.0",
+      "affected": "7.0.0 through 7.0.13",
+      "solution": "Upgrade to 7.0.14 or above"
+    },
+    {
+      "version": "FortiManager 6.4",
+      "affected": "6.4 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiManager 6.2",
+      "affected": "6.2 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiManager Cloud 7.6",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiManager Cloud 7.4",
+      "affected": "7.4.1 through 7.4.5",
+      "solution": "Upgrade to 7.4.6 or above"
+    },
+    {
+      "version": "FortiManager Cloud 7.2",
+      "affected": "7.2.1 through 7.2.9",
+      "solution": "Upgrade to 7.2.10 or above"
+    },
+    {
+      "version": "FortiManager Cloud 7.0",
+      "affected": "7.0.1 through 7.0.13",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiManager Cloud 6.4",
+      "affected": "6.4 all versions",
+      "solution": "Migrate to a fixed release"
+    }
+  ],
+  "metaData": {
+    "ir_number": "FG-IR-24-473",
+    "published_date": "Aug 13, 2025",
+    "component": "OTHERS",
+    "severity": "Medium",
+    "cvxsv3_score": "5.2",
+    "impact": "Execute unauthorized code or commands",
+    "cve_id": "CVE-2024-52964",
+    "cvrf": "Download"
+  }
+}

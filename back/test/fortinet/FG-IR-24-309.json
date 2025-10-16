@@ -1,0 +1,131 @@
+{
+  "source_file": "FG-IR-24-309.html",
+  "scraped_at": "2025-08-16T02:02:22.203Z",
+  "details": [
+    {
+      "version": "FortiCamera 2.2",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiCamera 2.1",
+      "affected": "2.1 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiCamera 2.0",
+      "affected": "2.0.0",
+      "solution": "Upgrade to 2.0.1 or above"
+    },
+    {
+      "version": "FortiCamera 1.1",
+      "affected": "1.1 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiCamera 1.0",
+      "affected": "1.0 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiMail 7.6",
+      "affected": "7.6.0 through 7.6.1",
+      "solution": "Upgrade to 7.6.2 or above"
+    },
+    {
+      "version": "FortiMail 7.4",
+      "affected": "7.4.0 through 7.4.3",
+      "solution": "Upgrade to 7.4.4 or above"
+    },
+    {
+      "version": "FortiMail 7.2",
+      "affected": "7.2 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiMail 7.0",
+      "affected": "7.0 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiMail 6.4",
+      "affected": "6.4 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiNDR 7.6",
+      "affected": "7.6.0 through 7.6.1",
+      "solution": "Upgrade to 7.6.2 or above"
+    },
+    {
+      "version": "FortiNDR 7.4",
+      "affected": "7.4.0 through 7.4.6",
+      "solution": "Upgrade to 7.4.7 or above"
+    },
+    {
+      "version": "FortiNDR 7.2",
+      "affected": "7.2 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiNDR 7.1",
+      "affected": "7.1 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiNDR 7.0",
+      "affected": "7.0 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiNDR 1.5",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiRecorder 7.2",
+      "affected": "7.2.0 through 7.2.1",
+      "solution": "Upgrade to 7.2.2 or above"
+    },
+    {
+      "version": "FortiRecorder 7.0",
+      "affected": "7.0.0 through 7.0.4",
+      "solution": "Upgrade to 7.0.5 or above"
+    },
+    {
+      "version": "FortiRecorder 6.4",
+      "affected": "6.4 all versions",
+      "solution": "Migrate to a fixed release"
+    },
+    {
+      "version": "FortiVoice 7.2",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiVoice 7.0",
+      "affected": "7.0.0 through 7.0.3",
+      "solution": "Upgrade to 7.0.5 or above"
+    },
+    {
+      "version": "FortiVoice 6.4",
+      "affected": "6.4.0 through 6.4.9",
+      "solution": "Upgrade to 6.4.10 or above"
+    },
+    {
+      "version": "FortiVoice 6.0",
+      "affected": "6.0 all versions",
+      "solution": "Migrate to a fixed release"
+    }
+  ],
+  "metaData": {
+    "ir_number": "FG-IR-24-309",
+    "published_date": "Aug 13, 2025",
+    "component": "CLI",
+    "severity": "Medium",
+    "cvxsv3_score": "4.2",
+    "impact": "Improper access control",
+    "cve_id": "CVE-2024-40588",
+    "cvrf": "Download"
+  }
+}

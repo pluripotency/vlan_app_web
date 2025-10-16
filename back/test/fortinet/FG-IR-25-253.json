@@ -1,0 +1,41 @@
+{
+  "source_file": "FG-IR-25-253.html",
+  "scraped_at": "2025-08-16T02:02:22.241Z",
+  "details": [
+    {
+      "version": "FortiWeb 8.0",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiWeb 7.6",
+      "affected": "7.6.0 through 7.6.3",
+      "solution": "Upgrade to 7.6.4 or above"
+    },
+    {
+      "version": "FortiWeb 7.4",
+      "affected": "7.4.1 through 7.4.8",
+      "solution": "Upgrade to 7.4.9 or above"
+    },
+    {
+      "version": "FortiWeb 7.2",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiWeb 7.0",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    }
+  ],
+  "metaData": {
+    "ir_number": "FG-IR-25-253",
+    "published_date": "Aug 12, 2025",
+    "component": "CLI",
+    "severity": "Medium",
+    "cvxsv3_score": "6.5",
+    "impact": "Execute unauthorized code or commands",
+    "cve_id": "CVE-2025-47857",
+    "cvrf": "Download"
+  }
+}

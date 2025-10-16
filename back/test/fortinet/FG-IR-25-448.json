@@ -1,0 +1,41 @@
+{
+  "source_file": "FG-IR-25-448.html",
+  "scraped_at": "2025-08-16T02:02:22.218Z",
+  "details": [
+    {
+      "version": "FortiWeb 8.0",
+      "affected": "Not affected",
+      "solution": "Not Applicable"
+    },
+    {
+      "version": "FortiWeb 7.6",
+      "affected": "7.6.0 through 7.6.3",
+      "solution": "Upgrade to 7.6.4 or above"
+    },
+    {
+      "version": "FortiWeb 7.4",
+      "affected": "7.4.0 through 7.4.7",
+      "solution": "Upgrade to 7.4.8 or above"
+    },
+    {
+      "version": "FortiWeb 7.2",
+      "affected": "7.2.0 through 7.2.10",
+      "solution": "Upgrade to 7.2.11 or above"
+    },
+    {
+      "version": "FortiWeb 7.0",
+      "affected": "7.0.0 through 7.0.10",
+      "solution": "Upgrade to 7.0.11 or above"
+    }
+  ],
+  "metaData": {
+    "ir_number": "FG-IR-25-448",
+    "published_date": "Aug 12, 2025",
+    "component": "GUI",
+    "severity": "High",
+    "cvxsv3_score": "7.7",
+    "impact": "Improper access control",
+    "cve_id": "CVE-2025-52970",
+    "cvrf": "Download"
+  }
+}
