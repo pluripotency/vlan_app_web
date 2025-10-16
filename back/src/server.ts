@@ -5,8 +5,7 @@ import path from 'path';
 import { ensureDatabase } from './db/setup';
 import { db, pool } from './db';
 import { requests, users, vlans } from './db/schema';
-import { desc, eq } from 'drizzle-orm';
-import { alias } from 'drizzle-orm/pg-core';
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 const app = express();
@@ -228,33 +227,33 @@ app.patch('/api/requests/:id', async (req, res, next) => {
 
 app.get('/api/requests', async (_req, res, next) => {
   try {
-    const updatedByUser = alias(users, 'updated_by_user');
-    const createdByUser = alias(users, 'created_by_user');
+    const rows = await db.query.requests.findMany({
+      with: {
+        user: true,
+        vlan: true,
+        updatedByUser: true,
+        createdByUser: true
+      },
+      orderBy: (request, { desc: descFn }) => [descFn(request.createdAt)]
+    });
 
-    const rows = await db
-      .select({
-        id: requests.id,
-        status: requests.status,
-        createdAt: requests.createdAt,
-        updatedAt: requests.updatedAt,
-        vlanId: requests.vlanId,
-        userId: requests.userId,
-        updatedBy: requests.updatedBy,
-        createdBy: requests.createdBy,
-        requesterName: users.name,
-        requesterSubject: users.subject,
-        vlanDescription: vlans.description,
-        updatedByName: updatedByUser.name,
-        createdByName: createdByUser.name
-      })
-      .from(requests)
-      .innerJoin(users, eq(users.id, requests.userId))
-      .innerJoin(vlans, eq(vlans.vlanId, requests.vlanId))
-      .leftJoin(updatedByUser, eq(updatedByUser.id, requests.updatedBy))
-      .leftJoin(createdByUser, eq(createdByUser.id, requests.createdBy))
-      .orderBy(desc(requests.createdAt));
+    const payload = rows.map(row => ({
+      id: row.id,
+      status: row.status,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      vlanId: row.vlanId,
+      userId: row.userId,
+      updatedBy: row.updatedBy,
+      createdBy: row.createdBy,
+      requesterName: row.user?.name ?? 'Unknown User',
+      requesterSubject: row.user?.subject ?? 'unknown',
+      vlanDescription: row.vlan?.description ?? 'Unknown VLAN',
+      updatedByName: row.updatedByUser?.name ?? null,
+      createdByName: row.createdByUser?.name ?? null
+    }));
 
-    res.json(rows);
+    res.json(payload);
   } catch (error) {
     next(error);
   }

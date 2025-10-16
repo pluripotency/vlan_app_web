@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm';
 import { db } from './index';
-import { vlans } from './schema';
+import { requests, users, vlans } from './schema';
 
 const defaultVlans = [
   { vlanId: 10, description: 'Corporate LAN' },
@@ -12,7 +12,7 @@ export async function ensureDatabase() {
   await db.execute(sql`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
-      subject TEXT NOT NULL,
+      subject TEXT NOT NULL UNIQUE,
       name TEXT NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       is_active BOOLEAN NOT NULL DEFAULT TRUE,
@@ -45,5 +45,43 @@ export async function ensureDatabase() {
     await db.insert(vlans)
       .values(vlan)
       .onConflictDoNothing();
+  }
+
+  const existingUsers = await db.select({ id: users.id }).from(users).limit(1);
+  if (existingUsers.length === 0) {
+    const [alice] = await db
+      .insert(users)
+      .values({ subject: 'user:alice', name: 'Alice Admin', isAdmin: true })
+      .returning();
+
+    const insertedUsers = await db
+      .insert(users)
+      .values([
+        { subject: 'user:bob', name: 'Bob Operator', isAdmin: false, adminRightBy: alice.id },
+        { subject: 'user:carol', name: 'Carol Viewer', isAdmin: false, adminRightBy: alice.id }
+      ])
+      .returning();
+
+    const bob = insertedUsers.find(user => user.subject === 'user:bob');
+    const carol = insertedUsers.find(user => user.subject === 'user:carol');
+
+    if (bob && carol) {
+      await db.insert(requests).values([
+        {
+          userId: bob.id,
+          vlanId: 10,
+          status: 'approved',
+          createdBy: alice.id,
+          updatedBy: alice.id
+        },
+        {
+          userId: carol.id,
+          vlanId: 30,
+          status: 'pending',
+          createdBy: alice.id,
+          updatedBy: alice.id
+        }
+      ]);
+    }
   }
 }

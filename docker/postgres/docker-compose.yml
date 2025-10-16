@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: vlan_app_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vlan_app
+      POSTGRES_USER: vlan
+      POSTGRES_PASSWORD: vlanpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s

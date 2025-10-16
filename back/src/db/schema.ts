@@ -1,15 +1,26 @@
-import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, foreignKey, integer, pgTable, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  subject: text('subject').notNull(),
-  name: text('name').notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  isActive: boolean('is_active').default(true).notNull(),
-  isAdmin: boolean('is_admin').default(false).notNull(),
-  adminRightBy: integer('admin_right_by').references(() => users.id, { onDelete: 'set null' })
-});
+export const users = pgTable(
+  'users',
+  {
+    id: serial('id').primaryKey(),
+    subject: text('subject').notNull(),
+    name: text('name').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    isActive: boolean('is_active').default(true).notNull(),
+    isAdmin: boolean('is_admin').default(false).notNull(),
+    adminRightBy: integer('admin_right_by')
+  },
+  usersTable => [
+    uniqueIndex('users_subject_unique').on(usersTable.subject),
+    foreignKey({
+      columns: [usersTable.adminRightBy],
+      foreignColumns: [usersTable.id],
+      name: 'users_admin_right_by_fkey'
+    }).onDelete('set null')
+  ]
+);
 
 export const vlans = pgTable('vlans', {
   vlanId: integer('vlan_id').primaryKey(),
@@ -43,6 +54,14 @@ export const requestRelations = relations(requests, ({ one }) => ({
   vlan: one(vlans, {
     fields: [requests.vlanId],
     references: [vlans.vlanId]
+  }),
+  updatedByUser: one(users, {
+    fields: [requests.updatedBy],
+    references: [users.id]
+  }),
+  createdByUser: one(users, {
+    fields: [requests.createdBy],
+    references: [users.id]
   })
 }));
 
@@ -50,3 +69,4 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Vlan = typeof vlans.$inferSelect;
 export type Request = typeof requests.$inferSelect;
+export type InsertRequest = typeof requests.$inferInsert;
