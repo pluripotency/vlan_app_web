@@ -2,8 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="${SCRIPT_DIR}/.."
-COMPOSE_FILE="${PROJECT_ROOT}/docker/postgres/docker-compose.yml"
+COMPOSE_FILE="${SCRIPT_DIR}/docker-compose.yml"
 
 if ! command -v docker &>/dev/null; then
   echo "[error] docker command not found. Install Docker to continue." >&2

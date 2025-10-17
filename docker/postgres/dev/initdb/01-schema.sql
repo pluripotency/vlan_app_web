@@ -23,10 +23,3 @@ CREATE TABLE IF NOT EXISTS requests (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   created_by INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
-
-INSERT INTO vlans (vlan_id, description)
-VALUES
-  (10, 'Corporate LAN'),
-  (20, 'Guest Network'),
-  (30, 'Secure Lab')
-ON CONFLICT (vlan_id) DO NOTHING;

@@ -14,8 +14,8 @@ cleanup() {
     wait "$BACK_PID" 2>/dev/null || true
   fi
 
-  if [[ -f "$ROOT_DIR/scripts/stop_postgres.sh" ]]; then
-    "$ROOT_DIR/scripts/stop_postgres.sh" || true
+  if [[ -f "$ROOT_DIR/docker/postgres/dev/stop.sh" ]]; then
+    "$ROOT_DIR/docker/postgres/dev/stop.sh" || true
   fi
 
   exit "$exit_code"
@@ -34,7 +34,7 @@ echo "Building backend..."
   npm run build
 )
 
-"$ROOT_DIR/scripts/start_postgres.sh"
+"$ROOT_DIR/docker/postgres/dev/start.sh"
 
 echo "Starting backend server (production)..."
 (

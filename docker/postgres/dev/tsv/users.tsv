@@ -1,0 +1,4 @@
+subject	name	is_admin	is_active
+user:alice	Alice Admin	TRUE	TRUE
+user:bob	Bob Operator	FALSE	TRUE
+user:carol	Carol Viewer	FALSE	TRUE

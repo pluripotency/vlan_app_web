@@ -7,3 +7,13 @@
 - Docker サポート: `docker/` ディレクトリに開発・実行環境のコンテナ構成が用意されています。
 
 アプリケーションは VLAN 申請のライフサイクルを可視化し、管理者が承認プロセスを円滑に進められるように設計されています。
+
+## サンプルデータの更新
+
+Docker 初期化用のサンプルデータ (`docker/postgres/dev/initdb/02-example-data.sql`) は、`docker/postgres/dev/tsv/` 以下の TSV ファイルから生成されます。内容を更新したい場合は TSV を編集し、次のコマンドで SQL を再生成してください。
+
+```bash
+node docker/postgres/dev/generate-sample-data.js
+```
+
+生成された SQL は `ON CONFLICT` 付きで既存データとの重複を避けるようになっています。

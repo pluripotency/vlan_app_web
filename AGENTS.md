@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The application is split into `front/` (React + TypeScript, Vite) and `back/` (Express + Drizzle ORM). Shared shell helpers live under `scripts/`, while database assets sit in `docker/postgres/` with compose files and init SQL. Static assets produced by the Vite build are served from `back/dist/` after the backend build. Keep feature work scoped to its module: UI concerns in `front/src/`, API routes, data adapters, and schema updates in `back/src/`. Tests belong beside the code they cover, using `__tests__` folders when necessary.
+The application is split into `front/` (React + TypeScript, Vite) and `back/` (Express + Drizzle ORM). Postgres tooling—Compose file, init SQL, TSV seeds, helper scripts—lives under `docker/postgres/dev/`. Static assets produced by the Vite build are served from `back/dist/` after the backend build. Keep feature work scoped to its module: UI concerns in `front/src/`, API routes, data adapters, and schema updates in `back/src/`. Tests belong beside the code they cover, using `__tests__` folders when necessary.
 
 ## Build, Test, and Development Commands
 Run `./start.sh` for a production-like stack (builds both apps, boots PostgreSQL, launches Express on port 3001). For iterative work, use `npm run dev` inside `front/` and `back/` (the latter seeds `DATABASE_URL` for local Docker). Build front-end artifacts with `npm run build` in each package; backend uses `tsc` while the front-end runs the Vite pipeline. Lint React code with `npm run lint` from `front/`.

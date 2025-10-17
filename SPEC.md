@@ -3,14 +3,14 @@
 ## 全体像
 - フロントエンド: `front/` で構成された React + TypeScript + Vite の SPA。ユーザー選択式ログインページ → 個人ダッシュボード → （管理者のみ）タブ付き Admin ページという 2 ステップ UI で、申請作成/キャンセルと管理業務を分離しています。
 - バックエンド: `back/` の Express + Drizzle ORM + PostgreSQL 構成。REST API とビルド済みフロントの静的配信をまとめて提供します。
-- データベース: Docker Compose (`docker/postgres/`) で PostgreSQL 16 を起動。初回起動時にスキーマとサンプルデータを投入する init スクリプトと、アプリ起動時の Drizzle 側初期化処理を両方備えています。
+- データベース: Docker Compose (`docker/postgres/dev/`) で PostgreSQL 16 を起動。初回起動時にスキーマとサンプルデータを投入する init スクリプトと、アプリ起動時の Drizzle 側初期化処理を両方備えています。
 
 ## 主な起動コマンド
 - `./start.sh`
   - フロント/バック両方で `npm run build` を実行し、ビルド済み成果物を生成。
-  - `scripts/start_postgres.sh` を呼び出して Docker Compose で DB を起動。既定の接続情報は `postgres://vlan:vlanpass@localhost:5432/vlan_app`。
+  - `docker/postgres/dev/start.sh` を呼び出して Docker Compose で DB を起動。既定の接続情報は `postgres://vlan:vlanpass@localhost:5432/vlan_app`。
   - `back/` に移動して `npm run start` を実行。Express が `/api/*` を API として提供しつつ、`back/dist/` に配置されたフロントを静的配信します。
-  - 実行後は `http://localhost:3001`（`PORT` を未設定の場合）でアクセス可能。Ctrl+C でバックエンドと DB を停止、もしくは `scripts/stop_postgres.sh` で DB のみ停止できます。
+  - 実行後は `http://localhost:3001`（`PORT` を未設定の場合）でアクセス可能。Ctrl+C でバックエンドと DB を停止、もしくは `docker/postgres/dev/stop.sh` で DB のみ停止できます。
 
 ### 必要要件
 - Node.js 20+（バック・フロントとも TypeScript/Esm 構成のため）
@@ -24,8 +24,7 @@
 ## ディレクトリ概要
 - `front/`: Vite ベースの SPA。`npm run dev` で開発サーバー、`npm run build` で静的ビルド。
 - `back/`: TypeScript で記述された Express API。`npm run dev`（tsx）、`npm run build`（tsc）、`npm run start`（ビルド済み実行）。`src/db/` 配下に Drizzle スキーマと初期化ロジック。
-- `docker/postgres/`: PostgreSQL 用 Compose ファイルと `initdb/` のスキーマ・サンプルデータ SQL。
-- `scripts/`: Postgres の起動停止スクリプト。
+- `docker/postgres/dev/`: PostgreSQL 用 Compose・initdb スクリプト・TSV ソース・起動停止スクリプト。
 - `start.sh`: プロダクション相当の起動トグルスクリプト。
 
 ## フロント画面構成
@@ -59,10 +58,10 @@
 
 ## 開発時のヒント
 - フロントの API ベース URL は `VITE_API_BASE`（既定 `/api`）。別ホストでバックエンドを動かすときは `front/.env` 等で調整。
-- モックなしで実行する場合は、`scripts/start_postgres.sh` で DB を単独起動後、`front/` と `back/` を個別に `npm run dev` しても良いです。
+- モックなしで実行する場合は、`docker/postgres/dev/start.sh` で DB を単独起動後、`front/` と `back/` を個別に `npm run dev` しても良いです。
 - 自動テストは未整備。変更後は lint / build（`npm run build`）と簡単な手動確認を推奨。
 
 ## トラブルシューティング
-- Docker が起動していない場合、`start_postgres.sh` が失敗しバックエンドも停止します。Docker デーモンを起動し再実行してください。
-- 既存コンテナが残っている場合は `docker compose -f docker/postgres/docker-compose.yml down` でクリーンアップ。
+- Docker が起動していない場合、`docker/postgres/dev/start.sh` が失敗しバックエンドも停止します。Docker デーモンを起動し再実行してください。
+- 既存コンテナが残っている場合は `docker compose -f docker/postgres/dev/docker-compose.yml down` でクリーンアップ。
 - `DATABASE_URL` を変更する場合、`.env` などでバックエンド起動前に設定するか、`start.sh` 実行時に環境変数を渡してください。
