@@ -4,7 +4,8 @@
   "description": "Express backend for the VLAN request application",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "devtsx": "tsx watch src/server.ts",
+    "dev": "DATABASE_URL='postgres://vlan:vlanpass@localhost:5432/vlan_app' npm run devtsx",
     "build": "tsc",
     "start": "node dist/server.js"
   },
