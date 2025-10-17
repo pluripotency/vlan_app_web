@@ -2,3 +2,4 @@ vlan_id	description
 10	Corporate LAN
 20	Guest Network
 30	Secure Lab
+40	Machine Room

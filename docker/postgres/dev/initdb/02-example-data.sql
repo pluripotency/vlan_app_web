@@ -5,14 +5,16 @@ INSERT INTO users (subject, name, is_admin, is_active)
 VALUES
   ('user:alice', 'Alice Admin', TRUE, TRUE),
   ('user:bob', 'Bob Operator', FALSE, TRUE),
-  ('user:carol', 'Carol Viewer', FALSE, TRUE)
+  ('user:carol', 'Carol Viewer', FALSE, TRUE),
+  ('user:taro', 'Taro Ultra', FALSE, TRUE)
 ON CONFLICT (subject) DO NOTHING;
 
 INSERT INTO vlans (vlan_id, description)
 VALUES
   (10, 'Corporate LAN'),
   (20, 'Guest Network'),
-  (30, 'Secure Lab')
+  (30, 'Secure Lab'),
+  (40, 'Machine Room')
 ON CONFLICT (vlan_id) DO NOTHING;
 
 WITH request_data AS (
@@ -41,6 +43,28 @@ WITH request_data AS (
   SELECT
     (SELECT id FROM users WHERE subject = 'user:carol') AS user_id,
     30 AS vlan_id,
+    'pending'::text AS status,
+    (SELECT id FROM users WHERE subject = 'user:alice') AS updated_by,
+    (SELECT id FROM users WHERE subject = 'user:alice') AS created_by
+)
+INSERT INTO requests (user_id, vlan_id, status, updated_by, created_by)
+SELECT user_id, vlan_id, status, updated_by, created_by
+FROM request_data
+WHERE user_id IS NOT NULL
+  AND vlan_id IS NOT NULL
+  AND updated_by IS NOT NULL
+  AND created_by IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1
+    FROM requests r
+    WHERE r.user_id = request_data.user_id
+      AND r.vlan_id = request_data.vlan_id
+  );
+
+WITH request_data AS (
+  SELECT
+    (SELECT id FROM users WHERE subject = 'user:taro') AS user_id,
+    40 AS vlan_id,
     'pending'::text AS status,
     (SELECT id FROM users WHERE subject = 'user:alice') AS updated_by,
     (SELECT id FROM users WHERE subject = 'user:alice') AS created_by

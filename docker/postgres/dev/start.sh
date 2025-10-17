@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="${SCRIPT_DIR}/docker-compose.yml"
+${SCRIPT_DIR}/gen_tsv.sh || true
 
 if ! command -v docker &>/dev/null; then
   echo "[error] docker command not found. Install Docker to continue." >&2
