@@ -4,11 +4,16 @@ type LoggingConfig = {
   formatPreset: string;
 };
 
+type DatabaseConfig = {
+  url: string;
+};
+
 type ServerConfig = {
   port: number;
 };
 
 type AppConfig = {
+  database: DatabaseConfig;
   server: ServerConfig;
   logging: LoggingConfig;
 };
@@ -27,6 +32,9 @@ export const defaultConfig: AppConfig = {
   },
   logging: {
     formatPreset: 'dev'
+  },
+  database: {
+    url: 'postgres://vlan:vlanpass@localhost:5432/vlan_app'
   }
 };
 
@@ -36,5 +44,8 @@ export const config: AppConfig = {
   },
   logging: {
     formatPreset: process.env.LOG_FORMAT_PRESET ?? defaultConfig.logging.formatPreset
+  },
+  database: {
+    url: process.env.DATABASE_URL ?? defaultConfig.database.url
   }
 };
