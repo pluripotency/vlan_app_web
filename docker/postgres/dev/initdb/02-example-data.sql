@@ -14,7 +14,8 @@ VALUES
   (10, 'Corporate LAN'),
   (20, 'Guest Network'),
   (30, 'Secure Lab'),
-  (40, 'Machine Room')
+  (40, '機械工学研究室'),
+  (41, '環境管理室')
 ON CONFLICT (vlan_id) DO NOTHING;
 
 WITH request_data AS (

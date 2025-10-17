@@ -223,16 +223,21 @@ app.patch('/api/requests/:id', async (req, res, next) => {
 
     const payload = updateRequestSchema.parse(req.body);
 
-    if (payload.status === 'pending') {
-      return res.status(400).json({ error: 'Status updates must be approve or reject actions.' });
-    }
-
     const [actingUser] = await db.select().from(users).where(eq(users.id, payload.updatedBy));
     if (!actingUser) {
       return res.status(404).json({ error: 'updatedBy user not found' });
     }
     if (!actingUser.isAdmin) {
       return res.status(403).json({ error: 'Only admin users can update request status.' });
+    }
+
+    const [existingRequest] = await db.select().from(requests).where(eq(requests.id, requestId));
+    if (!existingRequest) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+
+    if (payload.status === 'pending' && existingRequest.status === 'pending') {
+      return res.status(400).json({ error: 'Request is already pending.' });
     }
 
     const [updatedRequest] = await db
@@ -246,7 +251,7 @@ app.patch('/api/requests/:id', async (req, res, next) => {
       .returning();
 
     if (!updatedRequest) {
-      return res.status(404).json({ error: 'Request not found' });
+      return res.status(500).json({ error: 'Failed to update request status.' });
     }
 
     res.json(updatedRequest);

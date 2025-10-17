@@ -108,6 +108,7 @@ label {
 }
 
 input[type='text'],
+input[type='search'],
 select {
   padding: 0.55rem 0.75rem;
   border-radius: 8px;
@@ -118,6 +119,7 @@ select {
 }
 
 input[type='text']:focus,
+input[type='search']:focus,
 select:focus {
   outline: none;
   border-color: #4f46e5;
@@ -169,6 +171,15 @@ button.secondary {
 
 .table-wrapper {
   overflow-x: auto;
+}
+
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
 }
 
 table {
