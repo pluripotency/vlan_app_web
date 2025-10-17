@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -7,10 +6,13 @@ import { db, pool } from './db';
 import { requests, users, vlans } from './db/schema';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
+import morgan from 'morgan';
+import { config } from './config';
 
 const app = express();
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const port = config.server.port;
 
+app.use(morgan(config.logging.formatPreset));
 app.use(cors());
 app.use(express.json());
 
